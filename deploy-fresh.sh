@@ -16,14 +16,13 @@
 #   PM2_NAME             默认 finance-platform
 #   ADMIN_USERNAME       默认 admin
 #   ADMIN_PASSWORD       默认 admin
-#   FORCE_RESET_DB       设为 1 时允许覆盖已有表结构
 #   OVERWRITE_ENV        设为 1 时覆盖已有 .env
 # =============================================================================
 
 set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCHEMA_FILE="$APP_DIR/database/init-fresh-schema-v9.78.sql"
+SCHEMA_FILE="$APP_DIR/database/init-fresh-schema-v10.85.sql"
 DB_NAME="${DB_NAME:-finance_recon}"
 DB_USER="${DB_USER:-finance_user}"
 MYSQL_HOST="${MYSQL_HOST:-localhost}"
@@ -33,7 +32,6 @@ APP_PORT="${APP_PORT:-3001}"
 PM2_NAME="${PM2_NAME:-finance-platform}"
 ADMIN_USERNAME="${ADMIN_USERNAME:-admin}"
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin}"
-FORCE_RESET_DB="${FORCE_RESET_DB:-0}"
 OVERWRITE_ENV="${OVERWRITE_ENV:-0}"
 
 if [ -z "${DB_PASSWORD:-}" ]; then
@@ -59,6 +57,10 @@ if [ ! -f "$SCHEMA_FILE" ]; then
   echo "未找到数据库结构文件：$SCHEMA_FILE"
   exit 1
 fi
+if [ -f "$APP_DIR/.env" ] && [ "$OVERWRITE_ENV" != "1" ]; then
+  echo ".env 已存在。全新部署需使用独立目录；确认替换该文件时设置 OVERWRITE_ENV=1。"
+  exit 1
+fi
 
 mysql_admin=(mysql --protocol=TCP -h "$MYSQL_HOST" -u "$MYSQL_ADMIN_USER")
 if [ -n "$MYSQL_ADMIN_PASSWORD" ]; then
@@ -75,6 +77,14 @@ echo "==> 创建数据库和数据库用户"
 db_name_sql="$(sql_quote "$DB_NAME")"
 db_user_sql="$(sql_quote "$DB_USER")"
 db_pass_sql="$(sql_quote "$DB_PASSWORD")"
+object_count="$("${mysql_admin[@]}" -N -B -e "SELECT
+  (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$db_name_sql') +
+  (SELECT COUNT(*) FROM information_schema.routines WHERE routine_schema = '$db_name_sql') +
+  (SELECT COUNT(*) FROM information_schema.events WHERE event_schema = '$db_name_sql');")"
+if [ "$object_count" != "0" ]; then
+  echo "数据库 $DB_NAME 已有表、存储过程或事件。全新部署只允许使用空库，已停止。"
+  exit 1
+fi
 "${mysql_admin[@]}" <<SQL
 CREATE DATABASE IF NOT EXISTS \`$db_name_sql\`
   DEFAULT CHARACTER SET utf8mb4
@@ -85,26 +95,21 @@ GRANT ALL PRIVILEGES ON \`$db_name_sql\`.* TO '$db_user_sql'@'localhost';
 FLUSH PRIVILEGES;
 SQL
 
-table_count="$("${mysql_app[@]}" -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE();")"
-if [ "$table_count" != "0" ] && [ "$FORCE_RESET_DB" != "1" ]; then
-  echo "数据库 $DB_NAME 已存在 $table_count 张表。为避免误覆盖，已停止。"
-  echo "确认要重建结构时再执行：FORCE_RESET_DB=1 ./deploy-fresh.sh"
-  exit 1
-fi
-
-echo "==> 导入 v9.78 当前完整表结构"
+echo "==> 导入 v10.85 当前完整表结构和存储过程"
 "${mysql_app[@]}" < "$SCHEMA_FILE"
 
 echo "==> 写入 .env"
 app_secret="$(openssl rand -hex 24 2>/dev/null || date +%s%N)"
+database_url="$(DB_USER="$DB_USER" DB_NAME="$DB_NAME" MYSQL_HOST="$MYSQL_HOST" DB_PASSWORD="$DB_PASSWORD" node -e 'process.stdout.write(`mysql://${process.env.DB_USER}:${encodeURIComponent(process.env.DB_PASSWORD)}@${process.env.MYSQL_HOST}:3306/${process.env.DB_NAME}`)')"
 if [ ! -f "$APP_DIR/.env" ] || [ "$OVERWRITE_ENV" = "1" ]; then
   cat > "$APP_DIR/.env" <<EOF
-DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$MYSQL_HOST:3306/$DB_NAME
+DATABASE_URL=$database_url
 APP_ID=finance-platform
 APP_SECRET=$app_secret
 VITE_APP_ID=finance-platform
 PORT=$APP_PORT
 EOF
+  chmod 600 "$APP_DIR/.env"
 else
   echo ".env 已存在，保持不覆盖。如需覆盖请设置 OVERWRITE_ENV=1。"
 fi
@@ -116,8 +121,12 @@ npm install --no-audit --no-fund
 echo "==> 构建应用"
 npm run build
 
+echo "==> 创建数据库 Event 并校验全新部署结构"
+DATABASE_URL="$database_url" npm run db:events:ensure
+DATABASE_URL="$database_url" node scripts/check-fresh-database.mjs
+
 echo "==> 创建默认管理员（如不存在）"
-DATABASE_URL="mysql://$DB_USER:$DB_PASSWORD@$MYSQL_HOST:3306/$DB_NAME" \
+DATABASE_URL="$database_url" \
 ADMIN_USERNAME="$ADMIN_USERNAME" \
 ADMIN_PASSWORD="$ADMIN_PASSWORD" \
 node --input-type=module <<'NODE'
@@ -165,8 +174,8 @@ echo "=========================================="
 echo "应用目录：$APP_DIR"
 echo "数据库：$DB_NAME"
 echo "数据库用户：$DB_USER"
-echo "数据库密码：$DB_PASSWORD"
-echo "默认管理员：$ADMIN_USERNAME / $ADMIN_PASSWORD"
+echo "数据库连接信息已保存到 .env。"
+echo "默认管理员：$ADMIN_USERNAME"
 echo "访问地址：服务器IP:$APP_PORT"
 echo ""
 echo "请首次登录后立刻修改默认管理员密码。"

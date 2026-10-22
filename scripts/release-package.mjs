@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 
 const projectRoot = process.cwd();
 const layoutSource = readFileSync(resolve(projectRoot, "src/components/Layout.tsx"), "utf8");
@@ -24,10 +24,22 @@ const requiredFiles = [
   "migrate-v10.81-bank-flow-arrival-match.sql",
   "migrate-v10.83-counterparty-match-accounts-source.sql",
 ];
+const migrationDir = resolve(projectRoot, "database/migrations");
+const migrationFiles = existsSync(migrationDir)
+  ? readdirSync(migrationDir).filter((name) => /^migrate-[^/]+\.sql$/.test(name)).sort()
+  : [];
+if (readdirSync(projectRoot).some((name) => /^migrate-.*\.sql$/.test(name))) {
+  throw new Error("迁移脚本必须保存在 database/migrations/，请先移动根目录脚本");
+}
 for (const relativePath of requiredFiles) {
-  const absolutePath = resolve(projectRoot, relativePath);
+  const absolutePath = resolve(relativePath.startsWith("migrate-") ? migrationDir : projectRoot, relativePath);
   if (!existsSync(absolutePath) || statSync(absolutePath).size === 0) {
     throw new Error(`发布包必需文件为空或不存在：${relativePath}`);
+  }
+}
+for (const name of migrationFiles) {
+  if (!lstatSync(resolve(migrationDir, name)).isFile() || statSync(resolve(migrationDir, name)).size === 0) {
+    throw new Error(`迁移脚本为空或不是普通文件：${name}`);
   }
 }
 
@@ -37,7 +49,8 @@ if (!existsSync(assetsDir) || readdirSync(assetsDir).length === 0) {
 }
 
 mkdirSync(resolve(projectRoot, "releases"), { recursive: true });
-const outputFile = `releases/finance-platform-${version}-local.tar.gz`;
+const outputFile = process.env.RELEASE_PACKAGE_OUTPUT || `releases/finance-platform-${version}-local.tar.gz`;
+mkdirSync(dirname(resolve(projectRoot, outputFile)), { recursive: true });
 const excludes = [
   "./node_modules",
   "./.git",
@@ -69,6 +82,10 @@ const tarResult = spawnSync(
     "-czf",
     outputFile,
     ".",
+    // The source directory is private; deployed scripts keep their original root paths.
+    "-C",
+    migrationDir,
+    ...migrationFiles,
   ],
   {
     cwd: projectRoot,
@@ -88,7 +105,7 @@ if (listResult.status !== 0) {
   throw new Error(`读取发布包失败：${listResult.stderr.trim() || listResult.stdout.trim()}`);
 }
 const members = listResult.stdout.split("\n").filter(Boolean);
-for (const relativePath of requiredFiles) {
+for (const relativePath of new Set([...requiredFiles, ...migrationFiles])) {
   if (!members.some((member) => member.replace(/^\.\//, "") === relativePath)) {
     throw new Error(`发布包缺少必需文件：${relativePath}`);
   }

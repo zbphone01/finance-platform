@@ -40,7 +40,7 @@ description: Financial reconciliation and recognition management platform. Use t
 - 本地 MySQL 迁移和检查统一使用 TCP 连接，避免 socket 口径不一致：
 
 ```bash
-mysql --protocol=TCP -h localhost -u finance_sandbox -p finance_recon_sandbox < migrate-xxx.sql
+mysql --protocol=TCP -h localhost -u finance_sandbox -p finance_recon_sandbox < database/migrations/migrate-xxx.sql
 mysql --protocol=TCP -h localhost -u finance_sandbox -p finance_recon_sandbox -e "SHOW COLUMNS FROM 表名 LIKE '字段名';"
 ```
 
@@ -83,7 +83,9 @@ mysql --protocol=TCP -h localhost -u finance_user -p finance_recon < migrate-xxx
 
 - 迁移只在目标服务器项目目录内执行，不从本地直连线上数据库。
 - 执行前先检查字段、表、索引或事件是否已存在，避免重复执行迁移脚本。
-- 数据库结构使用明确的 `migrate-vX-*.sql` 管理；不要执行 `drizzle schema push`。
+- 历史和新增迁移脚本统一保存在本地 `database/migrations/migrate-vX-*.sql`，该目录由 Git 忽略。升级包仍将脚本放在根目录，服务器命令和发布清单继续使用原文件名；不要执行 `drizzle schema push`。
+- GitHub 源码仅用于全新部署，入口见 [全新部署说明](FRESH_DEPLOY_v10.85-local.md)。使用 `database/init-fresh-schema-v10.85.sql` 与 `database/fresh-schema-v10.85.json`，不依赖历史迁移；数据库结构变更时必须同步完整初始化结构、校验清单和全新部署入口。完整结构不导出业务数据、备份表、其他应用表、固定 DEFINER 或历史分区日期。
+- 迁移专用测试在本地目录存在时运行；GitHub 检出缺少私有迁移目录时明确跳过这些测试，完整初始化结构及打包测试仍独立运行。
 - `deploy-update-optimized.sh --check-database` 是当前发布版本迁移的只读检查入口，必须明确输出“需要迁移”并给出 `--check-and-migrate-database` 命令，或输出“无需迁移，可以部署”；字段混合、必需表缺失时必须失败退出。`--check-and-migrate-database` 是唯一允许执行当前版本 SQL 的入口，普通部署模式不得自动执行 SQL。
 - 构建成功后普通部署模式只复核当前发布版本的数据库完成态，并运行 `npm run db:events:ensure`；只补建缺失且依赖完整的 MySQL Event。当前版本迁移未完成、定义不一致或 `event_scheduler` 未开启时停止部署，不得串行检查更早版本迁移。
 - 用户索要迁移指令时，按目标环境提供完整命令，至少包含登录服务器、进入项目目录和“检查并迁移”入口；脚本负责迁移前检查、执行和迁移后回读，不使用账号、数据库名或脚本名占位符。
@@ -153,32 +155,11 @@ cd /home/deploy/Documents/资金池认账
 npm run release:package
 ```
 
-打包入口与以下排除规则保持一致，必须排除 `.env`、`node_modules`、`.git`、`releases`、上传缓存和本地备份：
+打包统一使用上述入口。`scripts/release-package.mjs` 从本地 `database/migrations/` 读取所有非空 `migrate-*.sql`，在部署包根目录写入同名文件，并检查必需迁移是否存在。根目录遗留迁移脚本会被拒绝，避免同名新旧文件混入包内。新增迁移必须直接保存到本地专用目录。
 
-```bash
-cd /home/deploy/Documents/资金池认账
-mkdir -p releases
-COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata \
-  --exclude='./node_modules' \
-  --exclude='./.git' \
-  --exclude='./releases' \
-  --exclude='./outputs' \
-  --exclude='./database' \
-  --exclude='./.upload-cache' \
-  --exclude='./tmp-sync' \
-  --exclude='./backup_before*.sql' \
-  --exclude='./config_from_server*.sql' \
-  --exclude='./finance_config_*.sql' \
-  --exclude='./local_config_backup_*.sql' \
-  --exclude='./prod_config_data_*.sql' \
-  --exclude='./clear_old_budget_codes.sql' \
-  --exclude='./.DS_Store' \
-  --exclude='*.swp' \
-  --exclude='./.env' \
-  --exclude='./.env.*' \
-  --exclude='./AGENTS.md' \
-  -czf releases/finance-platform-v10.85-local.tar.gz .
-```
+主项目归档仍排除 `.env`、`node_modules`、`.git`、`releases`、`outputs`、`database/`、上传缓存和本地备份；迁移目录仅通过单独的白名单映射进入包根目录，完整初始化文件和其他数据库文件不进入升级包。不要直接对项目目录执行 tar，否则会遗漏已移动的迁移脚本。
+
+仅验证打包而不覆盖已有发布包时，可以设置 `RELEASE_PACKAGE_OUTPUT=releases/finance-platform-v10.85-layout-check.tar.gz` 后运行 `npm run release:package`。这不是新版本发布，不修改版本号或现有正式部署包。
 
 打包后必须确认 `dist/boot.js`、`dist/public/index.html`、`dist/public/assets/` 和 `scripts/runtime-lock-fingerprint.mjs` 已进入发布包且文件非空。服务器部署脚本只校验和切换预构建产物，不再执行 `npm run build`。
 

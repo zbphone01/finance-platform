@@ -1,5 +1,7 @@
 # v9.78-local 全新服务器部署说明
 
+> 历史版本文档，仅供查阅。当前源码全新部署请使用 [v10.85 全新部署说明](FRESH_DEPLOY_v10.85-local.md)，不要使用本页的旧初始化结构和重置参数。
+
 ## 文件
 
 - `releases/finance-platform-v9.78-fresh.tar.gz`：全新部署包

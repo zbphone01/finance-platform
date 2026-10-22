@@ -2,6 +2,8 @@
 
 本说明仅适用于从上一实际部署包 `v10.84-local` 升级到 `v10.85-local`。发布包为 `releases/finance-platform-v10.85-local.tar.gz`；本版无 SQL 迁移，无依赖或运行配置变更。
 
+本地迁移脚本现保存在 `database/migrations/`，发布打包时仍映射到包根目录，因此本页服务器操作不变。GitHub 源码仅用于全新部署，见 [全新部署说明](FRESH_DEPLOY_v10.85-local.md)。
+
 ## 测试服务器1
 
 ### 1. 上传

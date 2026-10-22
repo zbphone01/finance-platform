@@ -1,0 +1,5178 @@
+{
+  "version": "v10.85",
+  "tables": {
+    "bank_accounts": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_name",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "account_no",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "account_alias",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "source_type",
+          "type": "enum('upload','manual')",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_default",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ba_bank_account_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "bank_name",
+          "prefixLength": null
+        },
+        {
+          "name": "ba_bank_account_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "account_no",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "bank_flows": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_name",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_account_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "matched_counterparty_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "arrival_match_status",
+          "type": "enum('unmatched','matched','cancelled')",
+          "nullable": "NO"
+        },
+        {
+          "name": "reference_no",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "transaction_time",
+          "type": "varchar(30)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "counterparty_account",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "counterparty_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "counterparty_bank",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "branch",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "summary",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "purpose",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "post_script",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_status",
+          "type": "enum('unrecognized','partial_matched','recognized','large_variance')",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_rule_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bf_recognition_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "recognition_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_ref_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "reference_no",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_status_time_id_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "recognition_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_status_time_id_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "transaction_time",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_status_time_id_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_task_id_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_task_id_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bf_time_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "transaction_time",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "bill_detail_archive_runs": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "archive_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "archive_table",
+          "type": "varchar(64)",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_name",
+          "type": "varchar(32)",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "enum('running','completed','failed','skipped')",
+          "nullable": "NO"
+        },
+        {
+          "name": "source_count",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "archive_count",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "source_total",
+          "type": "decimal(20,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "archive_total",
+          "type": "decimal(20,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "error_message",
+          "type": "varchar(1000)",
+          "nullable": "YES"
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        },
+        {
+          "name": "recognition_status_synced_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        },
+        {
+          "name": "manual_work_items_synced_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bdar_archive_date_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "archive_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bdar_archive_table_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "archive_table",
+          "prefixLength": null
+        },
+        {
+          "name": "bdar_status_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "status",
+          "prefixLength": null
+        },
+        {
+          "name": "bdar_status_date_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "archive_date",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "bill_detail_locator": {
+      "columns": [
+        {
+          "name": "detail_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "lifecycle_status",
+          "type": "enum('normal','unmatched_package','archived')",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bdl_order_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bdl_partition_detail_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bdl_partition_detail_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "detail_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bdl_partition_lifecycle_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bdl_partition_lifecycle_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "lifecycle_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bdl_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "detail_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "bill_details": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "detail_split_file_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "split_source_detail_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_no",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_1",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_2",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "description",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "refund_amount_snapshot",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_status",
+          "type": "enum('unmatched','matched','pending_split','ignored','manual_ignored')",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_result_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "operation_status",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "lifecycle_status",
+          "type": "enum('normal','unmatched_package','archived')",
+          "nullable": "NO"
+        },
+        {
+          "name": "original_task_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "original_recognition_date",
+          "type": "date",
+          "nullable": "YES"
+        },
+        {
+          "name": "rule_item_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "ignore_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "raw_data",
+          "type": "json",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bd_bill_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_detail_split_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_split_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_match_result_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "match_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_operation_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "operation_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_order_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_order_rec_item_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_order_rec_item_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "match_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_order_rec_item_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "match_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_order_rec_item_idx",
+          "nonUnique": 1,
+          "position": 4,
+          "columnName": "rule_item_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_partition_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_partition_status_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_partition_status_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "operation_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_partition_status_idx",
+          "nonUnique": 1,
+          "position": 4,
+          "columnName": "match_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_bill_date_bill_no_partition_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_bill_date_bill_no_partition_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_bill_date_bill_no_partition_uq",
+          "nonUnique": 0,
+          "position": 3,
+          "columnName": "bill_no",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_bill_date_bill_no_partition_uq",
+          "nonUnique": 0,
+          "position": 4,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_detail_split_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_detail_split_status_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "detail_split_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_detail_split_status_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "match_status",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_rule_detail_split_status_idx",
+          "nonUnique": 1,
+          "position": 4,
+          "columnName": "match_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_split_source_detail_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "split_source_detail_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_task_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bd_task_status_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "match_status",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "partition_date",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "budget_code_histories": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "budget_code_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "effective_date",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_project",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_id",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bch_budget_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "budget_code_id",
+          "prefixLength": null
+        },
+        {
+          "name": "bch_created_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "budget_codes": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "name",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "parent_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "level",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_leaf",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_project",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "associated_income_projects",
+          "type": "json",
+          "nullable": "YES"
+        },
+        {
+          "name": "associated_departments",
+          "type": "json",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_id",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "budget_leaf_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "is_leaf",
+          "prefixLength": null
+        },
+        {
+          "name": "budget_level_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "level",
+          "prefixLength": null
+        },
+        {
+          "name": "budget_parent_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "parent_id",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "counterparty_match_accounts": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "counterparty_record_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_name",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "account_no",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "account_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "summary",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "purpose",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "post_script",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "cma_account_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "account_no",
+          "prefixLength": null
+        },
+        {
+          "name": "cma_active_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "is_active",
+          "prefixLength": null
+        },
+        {
+          "name": "cma_record_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "counterparty_record_id",
+          "prefixLength": null
+        },
+        {
+          "name": "cma_record_sort_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "counterparty_record_id",
+          "prefixLength": null
+        },
+        {
+          "name": "cma_record_sort_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "sort_order",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "cma_record_fk",
+          "columnName": "counterparty_record_id",
+          "referencedTable": "counterparty_records",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "counterparty_records": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_summary_text",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "voucher_income_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "alias",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_matching_mode",
+          "type": "enum('单笔匹配','同日汇总匹配','多日汇总匹配')",
+          "nullable": "NO"
+        },
+        {
+          "name": "arrival_region",
+          "type": "enum('北京市','外省市','港澳台','境外','内部客商')",
+          "nullable": "YES"
+        },
+        {
+          "name": "recognition_type",
+          "type": "enum('到账认账','明细认账')",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_package_type",
+          "type": "enum('T+1','打包明细')",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "cr_alias_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "alias",
+          "prefixLength": null
+        },
+        {
+          "name": "cr_arrival_region_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "arrival_region",
+          "prefixLength": null
+        },
+        {
+          "name": "cr_detail_matching_mode_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_matching_mode",
+          "prefixLength": null
+        },
+        {
+          "name": "cr_detail_package_type_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_package_type",
+          "prefixLength": null
+        },
+        {
+          "name": "cr_recognition_type_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "recognition_type",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "departments": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "parent_code",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        },
+        {
+          "name": "level",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dept_code_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "code",
+          "prefixLength": null
+        },
+        {
+          "name": "dept_level_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "level",
+          "prefixLength": null
+        },
+        {
+          "name": "dept_parent_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "parent_code",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "detail_split_files": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "file_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_keyword_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "order_no_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "raw_columns",
+          "type": "text",
+          "nullable": "YES"
+        },
+        {
+          "name": "upload_status",
+          "type": "enum('processing','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "entry_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "processed_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "matched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "unmatched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "pending_recognition_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognized_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "duplicate_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_phase",
+          "type": "enum('idle','finding_tasks','recognizing','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_task_total",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_task_completed",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_failed_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "failed_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "uploader_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dsf_created_at_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "dsf_order_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "dsf_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "dsf_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "dsf_upload_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "upload_status",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "detail_split_order_dedup_keys": {
+      "columns": [
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "normalized_order_no",
+          "type": "varchar(191)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_split_file_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "source_line_number",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dsodk_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_split_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "normalized_order_no",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "dsodk_file_fk",
+          "columnName": "detail_split_file_id",
+          "referencedTable": "detail_split_files",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        },
+        {
+          "name": "dsodk_rule_fk",
+          "columnName": "rule_id",
+          "referencedTable": "recognition_rules",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "donation_activities": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "parent_code",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        },
+        {
+          "name": "level",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_leaf",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "da_active_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "is_active",
+          "prefixLength": null
+        },
+        {
+          "name": "da_code_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "code",
+          "prefixLength": null
+        },
+        {
+          "name": "da_parent_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "parent_code",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "fundraising_platforms": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_id",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "fp_platform_id_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "platform_id",
+          "prefixLength": null
+        },
+        {
+          "name": "fundraising_platforms_platform_id_unique",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "platform_id",
+          "prefixLength": null
+        },
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "income_recognition_rules": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "account_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "purpose",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "post_script",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "creator_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "matched_counterparty_alias",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "recognition_type",
+          "type": "enum('银行直捐','渠道捐赠')",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "income_rule_splits": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "split_form",
+          "type": "enum('百分比','认账时填写')",
+          "nullable": "NO"
+        },
+        {
+          "name": "split_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_type",
+          "type": "enum('捐赠收入','会费收入','政府补助','个税返还','本金','投资收益','利息','其他收入','其他')",
+          "nullable": "YES"
+        },
+        {
+          "name": "donation_source",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_attr",
+          "type": "enum('非限定性收入','限定性收入')",
+          "nullable": "YES"
+        },
+        {
+          "name": "remark",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_dept",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "budget_code",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_project",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "management_fee_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "expense_fund_source",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_project_name",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_project_detail",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "feedback_type",
+          "type": "enum('反馈','重点反馈')",
+          "nullable": "YES"
+        },
+        {
+          "name": "member_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "project_center",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "region",
+          "type": "enum('北京市','外省市','港澳台','境外','内部客商')",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_anonymous",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "management_fee_type",
+          "type": "enum('比例','金额')",
+          "nullable": "NO"
+        },
+        {
+          "name": "management_fee_value",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "irs_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "income_rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "invoice_only_order_details": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_datetime",
+          "type": "datetime",
+          "nullable": "NO"
+        },
+        {
+          "name": "bill_no",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_1",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_2",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "description",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "iood_order_file_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "iood_order_file_fk",
+          "columnName": "order_file_id",
+          "referencedTable": "invoice_only_order_files",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "invoice_only_order_files": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "file_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bill_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "raw_columns",
+          "type": "text",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_order_no_field_snapshot",
+          "type": "json",
+          "nullable": "YES"
+        },
+        {
+          "name": "upload_status",
+          "type": "enum('processing','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "entry_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "processed_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "failed_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "uploader_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ioof_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "ioof_uploader_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "uploader_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ioof_rule_fk",
+          "columnName": "rule_id",
+          "referencedTable": "invoice_only_rules",
+          "referencedColumn": "id",
+          "deleteRule": "NO ACTION",
+          "updateRule": "NO ACTION"
+        },
+        {
+          "name": "ioof_uploader_fk",
+          "columnName": "uploader_id",
+          "referencedTable": "users",
+          "referencedColumn": "id",
+          "deleteRule": "NO ACTION",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "invoice_only_rules": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "date_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "time_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_no_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "invoice_other_order_no_1_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_2_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "description_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "creator_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ior_creator_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "creator_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ior_creator_fk",
+          "columnName": "creator_id",
+          "referencedTable": "users",
+          "referencedColumn": "id",
+          "deleteRule": "NO ACTION",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "manual_order_work_items": {
+      "columns": [
+        {
+          "name": "detail_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "original_task_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "summary_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "bill_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "upload_date",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_no",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "rule_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "description",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_package_type",
+          "type": "enum('T+1','打包明细')",
+          "nullable": "NO"
+        },
+        {
+          "name": "operation_status",
+          "type": "enum('ignored','transferred')",
+          "nullable": "NO"
+        },
+        {
+          "name": "display_status",
+          "type": "enum('ignored','transferred','transferred_recognized')",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_result_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "operation_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "storage_location",
+          "type": "enum('hot','archive')",
+          "nullable": "NO"
+        },
+        {
+          "name": "archive_table",
+          "type": "varchar(64)",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "mowi_rule_status_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_rule_status_date_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "display_status",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_rule_status_date_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "summary_date",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_rule_status_date_idx",
+          "nonUnique": 1,
+          "position": 4,
+          "columnName": "detail_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_status_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "display_status",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_status_date_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "summary_date",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_status_date_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "detail_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_summary_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "summary_date",
+          "prefixLength": null
+        },
+        {
+          "name": "mowi_summary_date_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "detail_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "detail_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "match_results": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_item_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_type",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "donation_source",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_attr",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_dept",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "budget_code",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_project",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "management_fee_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "management_fee_amount",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "expense_fund_source",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "remark",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "voucher_receipt_channel_code",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "split_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "split_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "voucher_status",
+          "type": "enum('pending','created')",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_detail_count_snapshot",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "has_archived_details",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "entry_time",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_rule_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_flow_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "recognition_type",
+          "type": "enum('银行直捐','渠道捐赠')",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_project_name",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_project_display_name",
+          "type": "varchar(700)",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_project_detail",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_reference_no",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_transaction_time",
+          "type": "varchar(30)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_income",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_counterparty_account",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_counterparty_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_counterparty_bank",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_summary",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_purpose",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_post_script",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "feedback_type",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "member_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "project_center",
+          "type": "varchar(255)",
+          "nullable": "YES"
+        },
+        {
+          "name": "membership_payment_years",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "region",
+          "type": "enum('北京市','外省市','港澳台','境外','内部客商')",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_anonymous",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "management_fee_type",
+          "type": "enum('比例','金额')",
+          "nullable": "NO"
+        },
+        {
+          "name": "management_fee_value",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_bank_flow_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "bank_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_budget_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "budget_code",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_budget_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "entry_time",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_budget_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "budget_code",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_id_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "entry_time",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_id_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "entry_time",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_voucher_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "entry_time",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_entry_time_voucher_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "voucher_status",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mr_voucher_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "voucher_status",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "multi_day_match_group_flows": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "group_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "mdmgf_bank_flow_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "bank_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmgf_group_flow_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "group_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmgf_group_flow_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "bank_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmgf_group_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "group_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "multi_day_match_groups": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "enum('unmatched','pending_confirmation','matched')",
+          "nullable": "NO"
+        },
+        {
+          "name": "anchor_task_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "latest_bill_date",
+          "type": "date",
+          "nullable": "YES"
+        },
+        {
+          "name": "package_total",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "mdmg_anchor_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "anchor_task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmg_latest_bill_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "latest_bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmg_rule_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "mdmg_rule_status_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "status",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "order_file_partitions": {
+      "columns": [
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ofp_partition_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "partition_date",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "order_file_recognition_summaries": {
+      "columns": [
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_item_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_refund",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "rule_item_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 3,
+          "columnName": "is_refund",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ofrs_order_file_fk",
+          "columnName": "order_file_id",
+          "referencedTable": "order_files",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "order_files": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "file_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "detail_package_type",
+          "type": "enum('T+1','打包明细')",
+          "nullable": "NO"
+        },
+        {
+          "name": "upload_date",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        },
+        {
+          "name": "multi_day_match_group_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "matched_account_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "entry_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "processed_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "refund_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "matched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "unmatched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "pending_split_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognition_summary_valid",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "failed_reason",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "uploader_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_purpose",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_post_script",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "raw_columns",
+          "type": "text",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_order_no_field_snapshot",
+          "type": "json",
+          "nullable": "YES"
+        },
+        {
+          "name": "upload_status",
+          "type": "enum('processing','completed','failed','abnormal')",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_account_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "matched_account_name",
+          "prefixLength": null
+        },
+        {
+          "name": "of_multi_day_match_group_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "multi_day_match_group_id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_package_type_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_package_type",
+          "prefixLength": null
+        },
+        {
+          "name": "of_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_task_rule_created_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_task_rule_created_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "of_task_rule_created_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "of_upload_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "upload_date",
+          "prefixLength": null
+        },
+        {
+          "name": "of_upload_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "upload_status",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "order_recognition_summary_deltas": {
+      "columns": [
+        {
+          "name": "delta_type",
+          "type": "enum('source_deduction','target_transfer_in')",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_file_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "partition_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "summary_kind",
+          "type": "enum('file_total','rule_item')",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_item_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_refund",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "orsd_order_file_fk",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_source_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "delta_type",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_source_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_target_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "delta_type",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_target_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_target_idx",
+          "nonUnique": 1,
+          "position": 3,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "orsd_target_idx",
+          "nonUnique": 1,
+          "position": 4,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "delta_type",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "order_file_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 3,
+          "columnName": "task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 4,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 5,
+          "columnName": "partition_date",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 6,
+          "columnName": "summary_kind",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 7,
+          "columnName": "rule_item_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 8,
+          "columnName": "is_refund",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "orsd_order_file_fk",
+          "columnName": "order_file_id",
+          "referencedTable": "order_files",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "project_details": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "project_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_info",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "pd_code_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "code",
+          "prefixLength": null
+        },
+        {
+          "name": "pd_project_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "project_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "project_name_histories": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "project_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_id",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        },
+        {
+          "name": "name",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "effective_date",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "pnh_created_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "pnh_project_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "project_id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "projects": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "code",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "parent_code",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "level",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_id",
+          "type": "varchar(20)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "proj_code_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "code",
+          "prefixLength": null
+        },
+        {
+          "name": "proj_level_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "level",
+          "prefixLength": null
+        },
+        {
+          "name": "proj_parent_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "parent_code",
+          "prefixLength": null
+        },
+        {
+          "name": "proj_platform_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "platform_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "recognition_date_summaries": {
+      "columns": [
+        {
+          "name": "bill_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "primary_task_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "enum('pending_recognition','processing','large_variance','partial_matched','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "task_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_total",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_income_total",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognized_bank_flow_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "bill_detail_total",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "bill_detail_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "recognized_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "matched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "unmatched_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "pending_split_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "diff_amount",
+          "type": "decimal(18,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "has_detail_file",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "variance_rule_name",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "rds_primary_task_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "primary_task_id",
+          "prefixLength": null
+        },
+        {
+          "name": "rds_status_bill_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "status",
+          "prefixLength": null
+        },
+        {
+          "name": "rds_status_bill_date_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "rds_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "status",
+          "prefixLength": null
+        },
+        {
+          "name": "rds_updated_at_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "updated_at",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "recognition_rule_exclude_conditions": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "field_name",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_type",
+          "type": "enum('等于','包含')",
+          "nullable": "NO"
+        },
+        {
+          "name": "keyword",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "rrec_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "rrec_rule_fk",
+          "columnName": "rule_id",
+          "referencedTable": "recognition_rules",
+          "referencedColumn": "id",
+          "deleteRule": "CASCADE",
+          "updateRule": "NO ACTION"
+        }
+      ]
+    },
+    "recognition_rules": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "matched_counterparty_alias",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "creator_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "enabled_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "date_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "order_no_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "invoice_other_order_no_1_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "invoice_other_order_no_2_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "condition_recognition_enabled",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "exclude_order_enabled",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "exclude_order_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "exclude_order_keyword",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "refund_order_enabled",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "refund_judge_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "refund_judge_value",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "refund_direction_judge_value",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "refund_amount_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "detail_split_enabled",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "multi_split_keyword_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "multi_split_keyword",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "multi_split_match_field",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "detail_split_recognition_keyword_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_split_income_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_split_match_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_split_order_no_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "rr_active_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "is_active",
+          "prefixLength": null
+        },
+        {
+          "name": "rr_creator_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "creator_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "recognition_tasks": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "same_day_counterparty_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "creator_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "enum('pending_details','processing','large_variance','partial_matched','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_total",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_detail_total",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "diff_amount",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "bank_flow_count",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "bill_detail_count",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "matched_count",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "unmatched_count",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "pending_split_count",
+          "type": "int",
+          "nullable": "YES"
+        },
+        {
+          "name": "has_detail_file",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "remark",
+          "type": "text",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_creator_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "creator_id",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_date_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_date_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_date_rule_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_same_day_counterparty_date_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "bill_date",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_same_day_counterparty_date_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "same_day_counterparty_id",
+          "prefixLength": null
+        },
+        {
+          "name": "rt_status_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "status",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "role_permissions": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "role",
+          "type": "enum('operator','finance')",
+          "nullable": "NO"
+        },
+        {
+          "name": "permission_key",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "allowed",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_by",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "rp_permission_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "permission_key",
+          "prefixLength": null
+        },
+        {
+          "name": "rp_role_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "role",
+          "prefixLength": null
+        },
+        {
+          "name": "rp_role_permission_idx",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "role",
+          "prefixLength": null
+        },
+        {
+          "name": "rp_role_permission_idx",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "permission_key",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "rule_item_splits": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_item_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "split_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_type",
+          "type": "enum('捐赠收入','会费收入','政府补助','个税返还','本金','投资收益','利息','其他收入','其他')",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_attr",
+          "type": "enum('非限定性收入','限定性收入')",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_dept",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "budget_code",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_project",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "management_fee_ratio",
+          "type": "decimal(5,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "expense_fund_source",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "platform_project_name",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "platform_project_detail",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "ris_rule_item_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_item_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "rule_items": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "rule_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "keyword_field",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_keyword",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "keyword_match_type",
+          "type": "enum('等于','包含')",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "ri_keyword_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "detail_keyword",
+          "prefixLength": null
+        },
+        {
+          "name": "ri_rule_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "rule_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "rule_update_logs": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "operator_name",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_updated_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "income_total_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_updated_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "detail_total_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "rul_created_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "rul_operator_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "operator_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "sessions": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "token",
+          "type": "varchar(255)",
+          "nullable": "NO"
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "sess_token_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "token",
+          "prefixLength": null
+        },
+        {
+          "name": "sess_user_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "user_id",
+          "prefixLength": null
+        },
+        {
+          "name": "sessions_token_unique",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "token",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "system_storage_snapshot": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "int unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "request_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "requested_archive_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "enum('pending','capturing','completed','failed')",
+          "nullable": "NO"
+        },
+        {
+          "name": "snapshot_date",
+          "type": "date",
+          "nullable": "YES"
+        },
+        {
+          "name": "archive_date",
+          "type": "date",
+          "nullable": "YES"
+        },
+        {
+          "name": "mount_path",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "total_bytes",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "used_bytes",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "available_bytes",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "usage_percent",
+          "type": "decimal(5,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "captured_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        },
+        {
+          "name": "error_message",
+          "type": "varchar(1000)",
+          "nullable": "YES"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "unrecorded_counterparties": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_name",
+          "type": "varchar(50)",
+          "nullable": "YES"
+        },
+        {
+          "name": "account_no",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "account_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "summary",
+          "type": "varchar(500)",
+          "nullable": "NO"
+        },
+        {
+          "name": "purpose",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "post_script",
+          "type": "varchar(500)",
+          "nullable": "YES"
+        },
+        {
+          "name": "first_seen_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "last_seen_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "occurrence_count",
+          "type": "int",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "uc_account_no_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "account_no",
+          "prefixLength": null
+        },
+        {
+          "name": "uc_last_seen_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "last_seen_at",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "users": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "username",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "password_hash",
+          "type": "varchar(255)",
+          "nullable": "NO"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "role",
+          "type": "enum('admin','operator','finance')",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_active",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "login_failed_attempts",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "locked_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        },
+        {
+          "name": "two_factor_secret",
+          "type": "varchar(512)",
+          "nullable": "YES"
+        },
+        {
+          "name": "two_factor_enabled",
+          "type": "tinyint(1)",
+          "nullable": "NO"
+        },
+        {
+          "name": "two_factor_enabled_at",
+          "type": "timestamp",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "id",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "users_username_unique",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "username",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "voucher_receipt_channels": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "channel_code",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "channel_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrc_channel_code_idx",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "channel_code",
+          "prefixLength": null
+        },
+        {
+          "name": "vrc_channel_name_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "channel_name",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "voucher_result_flows": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_result_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "bank_flow_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "sort_order",
+          "type": "int",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrf_flow_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "bank_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrf_result_flow_unique_idx",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "voucher_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrf_result_flow_unique_idx",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "bank_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrf_result_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "voucher_result_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "voucher_result_lines": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_result_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "match_result_id",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "line_no",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "line_type",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "summary",
+          "type": "varchar(1000)",
+          "nullable": "NO"
+        },
+        {
+          "name": "subject_code",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "subject_name",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "debit_amount",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "credit_amount",
+          "type": "varchar(50)",
+          "nullable": "NO"
+        },
+        {
+          "name": "explanation_json",
+          "type": "json",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrl_line_no_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "voucher_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrl_line_no_idx",
+          "nonUnique": 1,
+          "position": 2,
+          "columnName": "line_no",
+          "prefixLength": null
+        },
+        {
+          "name": "vrl_match_result_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "match_result_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vrl_result_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "voucher_result_id",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "voucher_results": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "source_flow_id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_date",
+          "type": "varchar(20)",
+          "nullable": "NO"
+        },
+        {
+          "name": "reference_text",
+          "type": "varchar(200)",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_kind",
+          "type": "enum('generated','manual')",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_key",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "voucher_id_text",
+          "type": "varchar(200)",
+          "nullable": "YES"
+        },
+        {
+          "name": "income_type",
+          "type": "varchar(100)",
+          "nullable": "YES"
+        },
+        {
+          "name": "voucher_amount",
+          "type": "decimal(18,2)",
+          "nullable": "YES"
+        },
+        {
+          "name": "creation_group_id",
+          "type": "varchar(64)",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_aggregate",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "aggregate_flow_count",
+          "type": "int",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_by",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_created_at_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "created_at",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_creation_group_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "creation_group_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_kind_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "voucher_kind",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_source_flow_idx",
+          "nonUnique": 1,
+          "position": 1,
+          "columnName": "source_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_source_key_uq",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "source_flow_id",
+          "prefixLength": null
+        },
+        {
+          "name": "vr_source_key_uq",
+          "nonUnique": 0,
+          "position": 2,
+          "columnName": "voucher_key",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    },
+    "voucher_template_settings": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": "NO"
+        },
+        {
+          "name": "setting_key",
+          "type": "varchar(100)",
+          "nullable": "NO"
+        },
+        {
+          "name": "templates",
+          "type": "json",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_by",
+          "type": "bigint unsigned",
+          "nullable": "YES"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "PRIMARY",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "id",
+          "prefixLength": null
+        },
+        {
+          "name": "vts_setting_key_idx",
+          "nonUnique": 0,
+          "position": 1,
+          "columnName": "setting_key",
+          "prefixLength": null
+        }
+      ],
+      "foreignKeys": []
+    }
+  },
+  "procedures": [
+    "archive_bill_details_daily",
+    "archive_bill_details_daily_with_storage_request",
+    "archive_bill_details_day",
+    "ensure_bill_details_archive_month_table",
+    "ensure_bill_details_archive_tables_around",
+    "ensure_bill_details_next_month_partitions",
+    "ensure_bill_details_rolling_partitions",
+    "roll_bill_details_hot_window",
+    "sync_archived_manual_order_work_items",
+    "sync_archived_match_result_statuses"
+  ]
+}

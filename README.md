@@ -4,6 +4,7 @@
 
 ## 关键文档
 
+- [`docs/FRESH_DEPLOY_v10.85-local.md`](docs/FRESH_DEPLOY_v10.85-local.md)：从 GitHub 源码全新部署，使用当前版本完整初始化结构。
 - [`docs/finance-recon-SKILL.md`](docs/finance-recon-SKILL.md)：跨版本稳定的业务规则、数据库连接、性能红线、部署原则和排错提示。
 - [`docs/VERSION_SNAPSHOT_v10.85-local.md`](docs/VERSION_SNAPSHOT_v10.85-local.md)：当前版本的功能范围、数据库迁移、验证结果和风险回退说明。
 - [`docs/DEPLOY_v10.85-local.md`](docs/DEPLOY_v10.85-local.md)：从上一实际部署包 v10.84 升级到 v10.85 的完整部署指令。
@@ -21,20 +22,13 @@
 - 发版时同步更新本 README 和 skill 顶部的当前版本、快照、部署说明及发布包入口。
 - 历史版本快照和部署说明继续保留，避免在当前文档中复制历史迁移命令。
 
-## 常用命令
-
-```bash
-npm install
-npm run check
-npm run build
-npm run dev
-```
-
 ## 目录说明
 
 - `api/`：后端接口、认账执行逻辑、流式上传订单明细。
 - `src/`：前端页面和通用组件。
 - `db/`：数据库 schema。
+- `database/`：公开的完整初始化结构及结构校验清单。
+- `database/migrations/`：仅本地保存的历史和新增迁移脚本，Git 忽略；打包时映射到部署包根目录。
 - `docs/`：项目 skill、版本快照、部署说明和迭代备忘。
 - `releases/`：当前整理时保留的最新部署包。
 - `deploy-update-optimized.sh`：推荐的线上部署脚本。
@@ -65,6 +59,8 @@ DATABASE_URL=mysql://finance_user:******@localhost:3306/finance_recon
 
 公开仓库：https://github.com/zbphone01/finance-platform 。
 
-首次公开提交以当前版本为起点，旧历史仅保存在本地私有备份中。环境文件、密钥、业务导出、数据库数据备份和本地部署包不纳入仓库；数据库结构及迁移脚本保留。文档中的服务器地址和个人路径为示例，实际连接信息由本机配置提供。
+GitHub 源码仅用于全新部署，使用 `database/init-fresh-schema-v10.85.sql`、`database/fresh-schema-v10.85.json` 和 `deploy-fresh.sh`，不依赖历史迁移脚本。现有服务器升级继续使用本地生成的部署包；迁移脚本在包内仍位于根目录，升级部署脚本路径不变。
+
+历史和新增迁移脚本统一保存在本地 `database/migrations/`，不纳入后续提交；已发布提交历史中的迁移脚本仍可查看。仅从 GitHub 克隆的项目不具备本地升级打包所需的历史脚本。环境文件、密钥、业务导出、数据库数据备份和本地部署包也不纳入仓库。文档中的服务器地址和个人路径为示例，实际连接信息由本机配置提供。
 
 后续只有用户明确要求时才提交并推送，不配置自动推送。

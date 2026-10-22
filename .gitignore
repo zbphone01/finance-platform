@@ -71,3 +71,7 @@ coverage/
 /prod_config_data_*.sql
 /clear_old_budget_codes.sql
 /docs/*.docx
+
+# Local upgrade migrations; the public repository supports fresh installs
+/database/migrations/
+/migrate-*.sql
