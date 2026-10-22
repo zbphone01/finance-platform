@@ -1,0 +1,73 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# Deployment artifacts and local data exports
+.upload-cache/
+*.tar.gz
+releases/*.tar.gz
+/backup_before_v9.32.0.sql
+/config_from_server1_20260613_040747.sql
+/outputs/local-business-data-backup-20260627_034919.sql
+*_overwrite.sql
+finance_config_*.sql
+finance_settings_*.sql
+departments_*.sql
+import_*.sql
+*_report.md
+# Database
+*.db
+*.sqlite
+*.sqlite3
+db/migrations/*.sql
+# TypeScript cache
+*.tsbuildinfo
+# Build outputs
+dist/
+build/
+# Test coverage
+coverage/
+.nyc_output/
+
+# Private deployment data and local exports (never publish)
+/outputs/
+/tmp-sync/
+/releases/
+/AGENTS.md
+*.pem
+*.key
+*.p12
+*.pfx
+/backup_before*.sql
+/config_from_server*.sql
+/local_config_backup_*.sql
+/prod_config_data_*.sql
+/clear_old_budget_codes.sql
+/docs/*.docx
